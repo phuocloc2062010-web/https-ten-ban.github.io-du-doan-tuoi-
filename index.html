@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dự Đoán Tuổi</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,sans-serif;
+}
+
+body{
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:linear-gradient(135deg,#6a11cb,#2575fc);
+}
+
+.card{
+    width:400px;
+    background:white;
+    border-radius:20px;
+    padding:30px;
+    text-align:center;
+    box-shadow:0 10px 30px rgba(0,0,0,.3);
+}
+
+h1{
+    color:#2575fc;
+    margin-bottom:15px;
+}
+
+.time{
+    color:#666;
+    margin-bottom:20px;
+}
+
+input{
+    width:100%;
+    padding:12px;
+    border:2px solid #2575fc;
+    border-radius:10px;
+    font-size:18px;
+    text-align:center;
+}
+
+button{
+    margin-top:15px;
+    width:100%;
+    padding:12px;
+    border:none;
+    border-radius:10px;
+    background:#2575fc;
+    color:white;
+    font-size:18px;
+    cursor:pointer;
+}
+
+button:hover{
+    background:#1b5ddb;
+}
+
+.loading{
+    margin-top:15px;
+    display:none;
+}
+
+.bar{
+    width:100%;
+    height:15px;
+    background:#ddd;
+    border-radius:20px;
+    overflow:hidden;
+}
+
+.fill{
+    width:0%;
+    height:100%;
+    background:limegreen;
+}
+
+.result{
+    margin-top:20px;
+    font-size:22px;
+    font-weight:bold;
+    color:#28a745;
+}
+</style>
+</head>
+
+<body>
+
+<div class="card">
+    <h1>🎂 DỰ ĐOÁN TUỔI</h1>
+
+    <div class="time" id="time"></div>
+
+    <input type="number" id="age" placeholder="Nhập tuổi của bạn">
+
+    <button onclick="predictAge()">Dự Đoán</button>
+
+    <div class="loading" id="loading">
+        <p>Đang phân tích...</p>
+        <div class="bar">
+            <div class="fill" id="fill"></div>
+        </div>
+    </div>
+
+    <div class="result" id="result"></div>
+</div>
+
+<script>
+function updateTime(){
+    document.getElementById("time").innerHTML =
+        "⏰ " + new Date().toLocaleString("vi-VN");
+}
+setInterval(updateTime,1000);
+updateTime();
+
+function predictAge(){
+    let age = document.getElementById("age").value;
+
+    if(age === ""){
+        alert("Vui lòng nhập tuổi!");
+        return;
+    }
+
+    document.getElementById("result").innerHTML = "";
+    document.getElementById("loading").style.display = "block";
+
+    let fill = document.getElementById("fill");
+    let width = 0;
+
+    let interval = setInterval(()=>{
+        width++;
+        fill.style.width = width + "%";
+
+        if(width >= 100){
+            clearInterval(interval);
+
+            document.getElementById("loading").style.display = "none";
+
+            document.getElementById("result").innerHTML =
+            "🎉 Kết quả: Bạn " + age + " tuổi!";
+        }
+    },20);
+}
+</script>
+
+</body>
+</html>
